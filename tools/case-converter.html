@@ -1,36 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Case Converter</title>
     <meta name="description" content="Use our free online Case Converter tool to convert text to uppercase, lowercase, title case, or sentence case.">
+    <meta property="og:title" content="Case Converter">
+    <meta property="og:description" content="Convert text online easily with our Case Converter tool.">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <h1>Case Converter</h1>
-    <textarea id="inputText" rows="10" cols="60" placeholder="Type text here..."></textarea>
-    <br><br>
-    <button onclick="convertText('upper')">UPPERCASE</button>
-    <button onclick="convertText('lower')">lowercase</button>
-    <button onclick="convertText('title')">Title Case</button>
-    <button onclick="convertText('sentence')">Sentence case</button>
-    <p>Output:</p>
-    <textarea id="outputText" rows="10" cols="60" readonly></textarea>
+    <nav class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="word-counter.html">Word Counter</a>
+        <a href="case-converter.html">Case Converter</a>
+        <a href="json-formatter.html">JSON Formatter</a>
+        <a href="age-calculator.html">Age Calculator</a>
+        <a href="unit-converter.html">Unit Converter</a>
+        <a href="lorem-ipsum.html">Lorem Ipsum</a>
+    </nav>
+
+    <main class="tool-container">
+        <div class="tool-header">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="tool-icon">
+                <rect x="8" y="8" width="48" height="48" rx="4" fill="#10B981" stroke="#047857" stroke-width="2"/>
+                <text x="20" y="30" fill="white" font-family="Arial" font-size="14">Aa</text>
+                <path d="M20 36L44 36" stroke="white" stroke-width="2"/>
+                <path d="M32 28L44 20" stroke="white" stroke-width="2"/>
+                <path d="M32 28L20 20" stroke="white" stroke-width="2"/>
+            </svg>
+            <h1>Case Converter</h1>
+            <p class="tool-description">Convert text to uppercase, lowercase, title case, or sentence case instantly.</p>
+        </div>
+
+        <div class="converter-container">
+            <div class="input-section">
+                <label for="inputText">Input Text:</label>
+                <textarea id="inputText" rows="8" placeholder="Type or paste your text here..." class="text-area"></textarea>
+            </div>
+
+            <div class="button-group">
+                <button onclick="convertText('upper')" class="case-btn uppercase-btn">UPPERCASE</button>
+                <button onclick="convertText('lower')" class="case-btn lowercase-btn">lowercase</button>
+                <button onclick="convertText('title')" class="case-btn titlecase-btn">Title Case</button>
+                <button onclick="convertText('sentence')" class="case-btn sentencecase-btn">Sentence Case</button>
+            </div>
+
+            <div class="output-section">
+                <label for="outputText">Converted Text:</label>
+                <textarea id="outputText" rows="8" readonly class="text-area output-area"></textarea>
+            </div>
+        </div>
+    </main>
+
     <script>
         function convertText(type) {
             let text = document.getElementById("inputText").value;
             let result = '';
+            
+            if (!text.trim()) {
+                alert("Please enter some text to convert.");
+                return;
+            }
+            
             switch(type){
-                case 'upper':
-                    result = text.toUpperCase(); break;
-                case 'lower':
-                    result = text.toLowerCase(); break;
-                case 'title':
-                    result = text.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); break;
-                case 'sentence':
-                    result = text.replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()); break;
+                case 'upper': 
+                    result = text.toUpperCase(); 
+                    break;
+                case 'lower': 
+                    result = text.toLowerCase(); 
+                    break;
+                case 'title': 
+                    result = text.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); 
+                    break;
+                case 'sentence': 
+                    result = text.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g, c => c.toUpperCase()); 
+                    break;
             }
             document.getElementById("outputText").value = result;
         }
+
+        // Clear output when input changes
+        document.getElementById('inputText').addEventListener('input', function() {
+            document.getElementById('outputText').value = '';
+        });
     </script>
 </body>
 </html>

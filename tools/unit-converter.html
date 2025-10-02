@@ -1,31 +1,200 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unit Converter</title>
     <meta name="description" content="Convert length, weight, and volume quickly using our free online Unit Converter.">
+    <meta property="og:title" content="Unit Converter">
+    <meta property="og:description" content="Quickly convert length, weight, and volume online.">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <h1>Unit Converter</h1>
-    <label>Enter value:</label>
-    <input type="number" id="inputVal">
-    <select id="unitType">
-        <option value="length">Length (m ↔ ft)</option>
-        <option value="weight">Weight (kg ↔ lb)</option>
-        <option value="volume">Volume (l ↔ gal)</option>
-    </select>
-    <button onclick="convertUnit()">Convert</button>
-    <p>Result: <span id="resultVal">0</span></p>
+    <nav class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="word-counter.html">Word Counter</a>
+        <a href="case-converter.html">Case Converter</a>
+        <a href="json-formatter.html">JSON Formatter</a>
+        <a href="age-calculator.html">Age Calculator</a>
+        <a href="unit-converter.html">Unit Converter</a>
+        <a href="lorem-ipsum.html">Lorem Ipsum</a>
+    </nav>
+
+    <main class="tool-container">
+        <div class="tool-header">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="tool-icon">
+                <rect x="8" y="8" width="48" height="48" rx="4" fill="#F59E0B" stroke="#D97706" stroke-width="2"/>
+                <path d="M20 20L20 44" stroke="white" stroke-width="3"/>
+                <path d="M20 20L44 20" stroke="white" stroke-width="2"/>
+                <path d="M24 36L36 36" stroke="white" stroke-width="2"/>
+                <path d="M28 32L32 32" stroke="white" stroke-width="2"/>
+                <circle cx="38" cy="38" r="4" stroke="white" stroke-width="2"/>
+            </svg>
+            <h1>Unit Converter</h1>
+            <p class="tool-description">Convert between different units of length, weight, and volume instantly.</p>
+        </div>
+
+        <div class="converter-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="inputVal">Enter value:</label>
+                    <input type="number" id="inputVal" value="1" min="0" step="any" class="number-input">
+                </div>
+
+                <div class="input-group">
+                    <label for="fromUnit">From:</label>
+                    <select id="fromUnit" class="select-input">
+                        <option value="meters">Meters (m)</option>
+                        <option value="feet">Feet (ft)</option>
+                        <option value="kilograms">Kilograms (kg)</option>
+                        <option value="pounds">Pounds (lb)</option>
+                        <option value="liters">Liters (L)</option>
+                        <option value="gallons">Gallons (gal)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="toUnit">To:</label>
+                    <select id="toUnit" class="select-input">
+                        <option value="feet">Feet (ft)</option>
+                        <option value="meters">Meters (m)</option>
+                        <option value="pounds">Pounds (lb)</option>
+                        <option value="kilograms">Kilograms (kg)</option>
+                        <option value="gallons">Gallons (gal)</option>
+                        <option value="liters">Liters (L)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button onclick="convertUnit()" class="convert-btn">Convert</button>
+                <button onclick="swapUnits()" class="swap-btn">Swap Units</button>
+                <button onclick="clearInput()" class="clear-btn">Clear</button>
+            </div>
+
+            <div class="result-section">
+                <div class="result-card">
+                    <span class="result-label">Result:</span>
+                    <span id="resultVal" class="result-value">0</span>
+                    <span id="resultUnit" class="result-unit"></span>
+                </div>
+                <div class="conversion-details">
+                    <span id="conversionText"></span>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <script>
-        function convertUnit(){
-            let val = parseFloat(document.getElementById("inputVal").value);
-            let type = document.getElementById("unitType").value;
+        const conversionRates = {
+            // Length conversions
+            'meters-feet': 3.28084,
+            'feet-meters': 0.3048,
+            // Weight conversions
+            'kilograms-pounds': 2.20462,
+            'pounds-kilograms': 0.453592,
+            // Volume conversions
+            'liters-gallons': 0.264172,
+            'gallons-liters': 3.78541
+        };
+
+        function convertUnit() {
+            const inputVal = parseFloat(document.getElementById("inputVal").value);
+            const fromUnit = document.getElementById("fromUnit").value;
+            const toUnit = document.getElementById("toUnit").value;
+            
+            if (isNaN(inputVal) || inputVal < 0) {
+                showResult("Please enter a valid positive number", "error");
+                return;
+            }
+
+            // Check if conversion is possible
+            if (fromUnit === toUnit) {
+                showResult("Please select different units to convert", "error");
+                return;
+            }
+
+            const conversionKey = `${fromUnit}-${toUnit}`;
             let result = 0;
-            if(type==="length") result = val*3.28084; // meters → feet
-            else if(type==="weight") result = val*2.20462; // kg → lb
-            else if(type==="volume") result = val*0.264172; // liters → gallons
-            document.getElementById("resultVal").textContent = result.toFixed(2);
+            let conversionRate = 0;
+
+            if (conversionRates[conversionKey]) {
+                conversionRate = conversionRates[conversionKey];
+                result = inputVal * conversionRate;
+            } else {
+                showResult("Conversion not available between selected units", "error");
+                return;
+            }
+
+            // Update result display
+            document.getElementById("resultVal").textContent = result.toFixed(4);
+            document.getElementById("resultUnit").textContent = getUnitSymbol(toUnit);
+            
+            // Show conversion details
+            const conversionText = `${inputVal} ${getUnitName(fromUnit)} = ${result.toFixed(4)} ${getUnitName(toUnit)}`;
+            document.getElementById("conversionText").textContent = conversionText;
+            
+            showResult("Conversion successful!", "success");
         }
+
+        function swapUnits() {
+            const fromUnit = document.getElementById("fromUnit");
+            const toUnit = document.getElementById("toUnit");
+            
+            const tempValue = fromUnit.value;
+            fromUnit.value = toUnit.value;
+            toUnit.value = tempValue;
+            
+            // Trigger conversion after swap
+            convertUnit();
+        }
+
+        function clearInput() {
+            document.getElementById("inputVal").value = "1";
+            document.getElementById("resultVal").textContent = "0";
+            document.getElementById("resultUnit").textContent = "";
+            document.getElementById("conversionText").textContent = "";
+            showResult("Input cleared", "info");
+        }
+
+        function getUnitSymbol(unit) {
+            const symbols = {
+                'meters': 'm',
+                'feet': 'ft',
+                'kilograms': 'kg',
+                'pounds': 'lb',
+                'liters': 'L',
+                'gallons': 'gal'
+            };
+            return symbols[unit] || '';
+        }
+
+        function getUnitName(unit) {
+            const names = {
+                'meters': 'meters',
+                'feet': 'feet',
+                'kilograms': 'kilograms',
+                'pounds': 'pounds',
+                'liters': 'liters',
+                'gallons': 'gallons'
+            };
+            return names[unit] || '';
+        }
+
+        function showResult(message, type) {
+            // You can add status message display here if needed
+            console.log(`${type}: ${message}`);
+        }
+
+        // Auto-convert when inputs change
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('inputVal').addEventListener('input', convertUnit);
+            document.getElementById('fromUnit').addEventListener('change', convertUnit);
+            document.getElementById('toUnit').addEventListener('change', convertUnit);
+            
+            // Initial conversion
+            convertUnit();
+        });
     </script>
 </body>
 </html>

@@ -1,27 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JSON Formatter</title>
     <meta name="description" content="Use our free online JSON Formatter to validate and format your JSON instantly.">
+    <meta property="og:title" content="JSON Formatter">
+    <meta property="og:description" content="Validate and format JSON quickly and easily.">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <h1>JSON Formatter</h1>
-    <textarea id="jsonInput" rows="10" cols="60" placeholder="Paste JSON here..."></textarea>
-    <br>
-    <button onclick="formatJSON()">Format JSON</button>
-    <p>Output:</p>
-    <textarea id="jsonOutput" rows="10" cols="60" readonly></textarea>
+    <nav class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="word-counter.html">Word Counter</a>
+        <a href="case-converter.html">Case Converter</a>
+        <a href="json-formatter.html">JSON Formatter</a>
+        <a href="age-calculator.html">Age Calculator</a>
+        <a href="unit-converter.html">Unit Converter</a>
+        <a href="lorem-ipsum.html">Lorem Ipsum</a>
+    </nav>
+
+    <main class="tool-container">
+        <div class="tool-header">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="tool-icon">
+                <rect x="8" y="8" width="48" height="48" rx="4" fill="#8B5CF6" stroke="#7C3AED" stroke-width="2"/>
+                <text x="22" y="28" fill="white" font-family="Arial" font-size="16">{ }</text>
+                <path d="M28 36L36 36" stroke="white" stroke-width="2"/>
+                <path d="M26 40L38 40" stroke="white" stroke-width="2"/>
+            </svg>
+            <h1>JSON Formatter</h1>
+            <p class="tool-description">Validate and format your JSON data with proper indentation and syntax highlighting.</p>
+        </div>
+
+        <div class="json-container">
+            <div class="input-section">
+                <label for="jsonInput">Input JSON:</label>
+                <textarea id="jsonInput" rows="8" placeholder='Paste your JSON here... Example: {"name": "John", "age": 30}' class="text-area code-area"></textarea>
+            </div>
+
+            <div class="button-group">
+                <button onclick="formatJSON()" class="format-btn">Format JSON</button>
+                <button onclick="validateJSON()" class="validate-btn">Validate Only</button>
+                <button onclick="clearAll()" class="clear-btn">Clear All</button>
+            </div>
+
+            <div class="output-section">
+                <label for="jsonOutput">Formatted JSON:</label>
+                <textarea id="jsonOutput" rows="8" readonly class="text-area code-area output-area"></textarea>
+            </div>
+
+            <div class="status-message">
+                <span id="statusText"></span>
+            </div>
+        </div>
+    </main>
+
     <script>
         function formatJSON() {
-            const input = document.getElementById("jsonInput").value;
+            const input = document.getElementById("jsonInput").value.trim();
+            const statusText = document.getElementById("statusText");
+            
+            if (!input) {
+                statusText.textContent = "Please enter some JSON to format.";
+                statusText.style.color = "#EF4444";
+                return;
+            }
+            
             try {
                 const obj = JSON.parse(input);
-                document.getElementById("jsonOutput").value = JSON.stringify(obj, null, 4);
+                const formatted = JSON.stringify(obj, null, 4);
+                document.getElementById("jsonOutput").value = formatted;
+                statusText.textContent = "✅ JSON is valid and formatted successfully!";
+                statusText.style.color = "#10B981";
             } catch(e) {
-                document.getElementById("jsonOutput").value = "Invalid JSON: " + e.message;
+                document.getElementById("jsonOutput").value = "";
+                statusText.textContent = "❌ Invalid JSON: " + e.message;
+                statusText.style.color = "#EF4444";
             }
         }
+
+        function validateJSON() {
+            const input = document.getElementById("jsonInput").value.trim();
+            const statusText = document.getElementById("statusText");
+            
+            if (!input) {
+                statusText.textContent = "Please enter some JSON to validate.";
+                statusText.style.color = "#EF4444";
+                return;
+            }
+            
+            try {
+                JSON.parse(input);
+                statusText.textContent = "✅ JSON is valid!";
+                statusText.style.color = "#10B981";
+            } catch(e) {
+                statusText.textContent = "❌ Invalid JSON: " + e.message;
+                statusText.style.color = "#EF4444";
+            }
+        }
+
+        function clearAll() {
+            document.getElementById("jsonInput").value = "";
+            document.getElementById("jsonOutput").value = "";
+            document.getElementById("statusText").textContent = "";
+        }
+
+        // Clear status when user starts typing
+        document.getElementById('jsonInput').addEventListener('input', function() {
+            document.getElementById('statusText').textContent = "";
+        });
     </script>
 </body>
 </html>

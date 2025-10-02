@@ -1,23 +1,167 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Free Word Counter</title>
-    <meta name="description" content="Use our free online Word Counter tool to quickly and easily count words and characters online.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter</title>
+    <meta name="description" content="Use our free online Word Counter tool to quickly count words and characters.">
+    <meta property="og:title" content="Word Counter">
+    <meta property="og:description" content="Use our free online Word Counter tool to quickly count words and characters.">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <h1>Word Counter</h1>
-    <textarea id="textInput" rows="10" cols="60" placeholder="Type or paste text here..."></textarea>
-    <p>Words: <span id="wordCount">0</span></p>
-    <p>Characters: <span id="charCount">0</span></p>
+    <nav class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="word-counter.html">Word Counter</a>
+        <a href="case-converter.html">Case Converter</a>
+        <a href="json-formatter.html">JSON Formatter</a>
+        <a href="age-calculator.html">Age Calculator</a>
+        <a href="unit-converter.html">Unit Converter</a>
+        <a href="lorem-ipsum.html">Lorem Ipsum</a>
+    </nav>
+
+    <main class="tool-container">
+        <div class="tool-header">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="tool-icon">
+                <rect x="8" y="8" width="48" height="48" rx="4" fill="#3B82F6" stroke="#1D4ED8" stroke-width="2"/>
+                <text x="32" y="28" text-anchor="middle" fill="white" font-family="Arial" font-size="14">ABC</text>
+                <text x="32" y="45" text-anchor="middle" fill="white" font-family="Arial" font-size="12">123</text>
+            </svg>
+            <h1>Word Counter</h1>
+            <p class="tool-description">Count words, characters, sentences, and paragraphs instantly as you type.</p>
+        </div>
+
+        <div class="counter-container">
+            <div class="input-section">
+                <label for="textInput">Enter your text:</label>
+                <textarea id="textInput" rows="10" placeholder="Type or paste your text here..." class="text-area"></textarea>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="wordCount">0</div>
+                    <div class="stat-label">Words</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="charCount">0</div>
+                    <div class="stat-label">Characters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="charNoSpacesCount">0</div>
+                    <div class="stat-label">Characters (no spaces)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="sentenceCount">0</div>
+                    <div class="stat-label">Sentences</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="paragraphCount">0</div>
+                    <div class="stat-label">Paragraphs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="readingTime">0</div>
+                    <div class="stat-label">Reading Time (min)</div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button onclick="clearText()" class="clear-btn">Clear Text</button>
+                <button onclick="copyText()" class="copy-btn">Copy Text</button>
+            </div>
+
+            <div class="status-message">
+                <span id="statusText"></span>
+            </div>
+        </div>
+    </main>
+
     <script>
         const textInput = document.getElementById("textInput");
         const wordCount = document.getElementById("wordCount");
         const charCount = document.getElementById("charCount");
-        textInput.addEventListener("input", () => {
-            const text = textInput.value.trim();
-            wordCount.textContent = text === "" ? 0 : text.split(/\s+/).length;
+        const charNoSpacesCount = document.getElementById("charNoSpacesCount");
+        const sentenceCount = document.getElementById("sentenceCount");
+        const paragraphCount = document.getElementById("paragraphCount");
+        const readingTime = document.getElementById("readingTime");
+        const statusText = document.getElementById("statusText");
+
+        textInput.addEventListener("input", updateCounts);
+
+        function updateCounts() {
+            const text = textInput.value;
+            
+            // Word count (improved to handle multiple spaces and line breaks)
+            const words = text.trim() ? text.trim().split(/\s+/).filter(word => word.length > 0) : [];
+            wordCount.textContent = words.length;
+            
+            // Character counts
             charCount.textContent = text.length;
+            charNoSpacesCount.textContent = text.replace(/\s/g, '').length;
+            
+            // Sentence count (count sentences ending with . ! ?)
+            const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0);
+            sentenceCount.textContent = sentences.length;
+            
+            // Paragraph count (count non-empty paragraphs)
+            const paragraphs = text.split(/\n+/).filter(paragraph => paragraph.trim().length > 0);
+            paragraphCount.textContent = paragraphs.length;
+            
+            // Reading time (average reading speed: 200 words per minute)
+            const readingTimeMinutes = words.length / 200;
+            readingTime.textContent = readingTimeMinutes < 1 ? '<1' : readingTimeMinutes.toFixed(1);
+            
+            updateStatus();
+        }
+
+        function clearText() {
+            textInput.value = '';
+            updateCounts();
+            showStatus("Text cleared successfully!", "success");
+        }
+
+        function copyText() {
+            if (!textInput.value.trim()) {
+                showStatus("No text to copy. Please enter some text first.", "error");
+                return;
+            }
+
+            textInput.select();
+            textInput.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(textInput.value)
+                .then(() => {
+                    showStatus("Text copied to clipboard!", "success");
+                })
+                .catch(err => {
+                    showStatus("Failed to copy text.", "error");
+                });
+        }
+
+        function updateStatus() {
+            const words = parseInt(wordCount.textContent);
+            const chars = parseInt(charCount.textContent);
+            
+            if (words === 0 && chars === 0) {
+                statusText.textContent = "Start typing to see real-time statistics...";
+                statusText.className = "info";
+            } else {
+                statusText.textContent = `Document contains ${words} words and ${chars} characters.`;
+                statusText.className = "success";
+            }
+        }
+
+        function showStatus(message, type) {
+            statusText.textContent = message;
+            statusText.className = type;
+            
+            // Clear status after 3 seconds
+            setTimeout(() => {
+                updateStatus();
+            }, 3000);
+        }
+
+        // Initialize counts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCounts();
         });
     </script>
 </body>

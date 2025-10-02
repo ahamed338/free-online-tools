@@ -1,25 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lorem Ipsum Generator</title>
     <meta name="description" content="Generate dummy text quickly with our free Lorem Ipsum Generator.">
+    <meta property="og:title" content="Lorem Ipsum Generator">
+    <meta property="og:description" content="Generate dummy text instantly for your projects.">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <h1>Lorem Ipsum Generator</h1>
-    <label>Number of paragraphs:</label>
-    <input type="number" id="paraCount" value="1" min="1" max="10">
-    <button onclick="generateLorem()">Generate</button>
-    <p>Output:</p>
-    <textarea id="loremOutput" rows="10" cols="60" readonly></textarea>
+    <nav class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="word-counter.html">Word Counter</a>
+        <a href="case-converter.html">Case Converter</a>
+        <a href="json-formatter.html">JSON Formatter</a>
+        <a href="age-calculator.html">Age Calculator</a>
+        <a href="unit-converter.html">Unit Converter</a>
+        <a href="lorem-ipsum.html">Lorem Ipsum</a>
+    </nav>
+
+    <main class="tool-container">
+        <div class="tool-header">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="tool-icon">
+                <rect x="8" y="8" width="48" height="48" rx="4" fill="#6B7280" stroke="#4B5563" stroke-width="2"/>
+                <path d="M20 24L44 24" stroke="white" stroke-width="2"/>
+                <path d="M20 30L40 30" stroke="white" stroke-width="2"/>
+                <path d="M20 36L44 36" stroke="white" stroke-width="2"/>
+                <path d="M20 42L36 42" stroke="white" stroke-width="2"/>
+                <text x="28" y="52" fill="white" font-family="Arial" font-size="8">Lorem</text>
+            </svg>
+            <h1>Lorem Ipsum Generator</h1>
+            <p class="tool-description">Generate placeholder text for your designs, mockups, and prototypes instantly.</p>
+        </div>
+
+        <div class="lorem-container">
+            <div class="controls-section">
+                <div class="input-group">
+                    <label for="paraCount">Number of paragraphs:</label>
+                    <input type="number" id="paraCount" value="3" min="1" max="20" class="number-input">
+                </div>
+                
+                <div class="input-group">
+                    <label for="textType">Text Type:</label>
+                    <select id="textType" class="select-input">
+                        <option value="lorem">Classic Lorem Ipsum</option>
+                        <option value="modern">Modern Placeholder</option>
+                        <option value="short">Short Sentences</option>
+                    </select>
+                </div>
+
+                <div class="button-group">
+                    <button onclick="generateLorem()" class="generate-btn">Generate Text</button>
+                    <button onclick="copyToClipboard()" class="copy-btn">Copy to Clipboard</button>
+                    <button onclick="clearOutput()" class="clear-btn">Clear</button>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <label for="loremOutput">Generated Text:</label>
+                <textarea id="loremOutput" rows="12" readonly class="text-area output-area"></textarea>
+            </div>
+
+            <div class="status-message">
+                <span id="statusText"></span>
+            </div>
+        </div>
+    </main>
+
     <script>
-        const loremText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
-        function generateLorem(){
-            let n = parseInt(document.getElementById("paraCount").value);
+        const loremTexts = {
+            lorem: [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium."
+            ],
+            modern: [
+                "Create beautiful designs with our modern tools and intuitive interface that helps you bring your ideas to life.",
+                "Streamline your workflow with powerful features that save you time and increase your productivity significantly.",
+                "Collaborate seamlessly with team members and share your projects effortlessly across multiple platforms.",
+                "Transform your creative vision into reality with our comprehensive suite of design and development tools.",
+                "Experience the future of digital creation with innovative solutions that adapt to your unique needs."
+            ],
+            short: [
+                "Start creating today.",
+                "Make it happen.",
+                "Design with confidence.",
+                "Build something amazing.",
+                "Your vision, our tools."
+            ]
+        };
+
+        function generateLorem() {
+            const paraCount = parseInt(document.getElementById("paraCount").value);
+            const textType = document.getElementById("textType").value;
+            const texts = loremTexts[textType];
             let output = "";
-            for(let i=0;i<n;i++){ output += loremText.repeat(10) + "\n\n";}
-            document.getElementById("loremOutput").value = output;
+
+            if (paraCount < 1 || paraCount > 20) {
+                showStatus("Please enter a number between 1 and 20.", "error");
+                return;
+            }
+
+            for (let i = 0; i < paraCount; i++) {
+                const randomText = texts[Math.floor(Math.random() * texts.length)];
+                output += randomText + "\n\n";
+            }
+
+            document.getElementById("loremOutput").value = output.trim();
+            showStatus(`Generated ${paraCount} paragraph(s) successfully!`, "success");
         }
+
+        function copyToClipboard() {
+            const output = document.getElementById("loremOutput");
+            if (!output.value.trim()) {
+                showStatus("No text to copy. Please generate some text first.", "error");
+                return;
+            }
+
+            output.select();
+            output.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(output.value)
+                .then(() => {
+                    showStatus("Text copied to clipboard!", "success");
+                })
+                .catch(err => {
+                    showStatus("Failed to copy text.", "error");
+                });
+        }
+
+        function clearOutput() {
+            document.getElementById("loremOutput").value = "";
+            showStatus("Output cleared.", "info");
+        }
+
+        function showStatus(message, type) {
+            const statusText = document.getElementById("statusText");
+            statusText.textContent = message;
+            statusText.className = type;
+        }
+
+        // Generate text on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            generateLorem();
+        });
     </script>
 </body>
 </html>

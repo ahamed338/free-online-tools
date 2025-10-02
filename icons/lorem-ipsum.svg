@@ -1,0 +1,8 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="www.w3.org/2000/svg">
+<rect x="8" y="8" width="48" height="48" rx="4" fill="#6B7280" stroke="#4B5563" stroke-width="2"/>
+<path d="M20 24L44 24" stroke="white" stroke-width="2"/>
+<path d="M20 30L40 30" stroke="white" stroke-width="2"/>
+<path d="M20 36L44 36" stroke="white" stroke-width="2"/>
+<path d="M20 42L36 42" stroke="white" stroke-width="2"/>
+<text x="28" y="52" fill="white" font-family="Arial" font-size="8">Lorem</text>
+</svg>
