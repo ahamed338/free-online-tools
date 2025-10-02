@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unit Converter</title>
+    <meta name="description" content="Convert length, weight, and volume quickly using our free online Unit Converter.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <h1>Unit Converter</h1>
+    <label>Enter value:</label>
+    <input type="number" id="inputVal">
+    <select id="unitType">
+        <option value="length">Length (m ↔ ft)</option>
+        <option value="weight">Weight (kg ↔ lb)</option>
+        <option value="volume">Volume (l ↔ gal)</option>
+    </select>
+    <button onclick="convertUnit()">Convert</button>
+    <p>Result: <span id="resultVal">0</span></p>
+    <script>
+        function convertUnit(){
+            let val = parseFloat(document.getElementById("inputVal").value);
+            let type = document.getElementById("unitType").value;
+            let result = 0;
+            if(type==="length") result = val*3.28084; // meters → feet
+            else if(type==="weight") result = val*2.20462; // kg → lb
+            else if(type==="volume") result = val*0.264172; // liters → gallons
+            document.getElementById("resultVal").textContent = result.toFixed(2);
+        }
+    </script>
+</body>
+</html>

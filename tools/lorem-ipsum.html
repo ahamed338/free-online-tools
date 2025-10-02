@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lorem Ipsum Generator</title>
+    <meta name="description" content="Generate dummy text quickly with our free Lorem Ipsum Generator.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <h1>Lorem Ipsum Generator</h1>
+    <label>Number of paragraphs:</label>
+    <input type="number" id="paraCount" value="1" min="1" max="10">
+    <button onclick="generateLorem()">Generate</button>
+    <p>Output:</p>
+    <textarea id="loremOutput" rows="10" cols="60" readonly></textarea>
+    <script>
+        const loremText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
+        function generateLorem(){
+            let n = parseInt(document.getElementById("paraCount").value);
+            let output = "";
+            for(let i=0;i<n;i++){ output += loremText.repeat(10) + "\n\n";}
+            document.getElementById("loremOutput").value = output;
+        }
+    </script>
+</body>
+</html>

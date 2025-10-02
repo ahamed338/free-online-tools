@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Case Converter</title>
+    <meta name="description" content="Use our free online Case Converter tool to convert text to uppercase, lowercase, title case, or sentence case.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <h1>Case Converter</h1>
+    <textarea id="inputText" rows="10" cols="60" placeholder="Type text here..."></textarea>
+    <br><br>
+    <button onclick="convertText('upper')">UPPERCASE</button>
+    <button onclick="convertText('lower')">lowercase</button>
+    <button onclick="convertText('title')">Title Case</button>
+    <button onclick="convertText('sentence')">Sentence case</button>
+    <p>Output:</p>
+    <textarea id="outputText" rows="10" cols="60" readonly></textarea>
+    <script>
+        function convertText(type) {
+            let text = document.getElementById("inputText").value;
+            let result = '';
+            switch(type){
+                case 'upper':
+                    result = text.toUpperCase(); break;
+                case 'lower':
+                    result = text.toLowerCase(); break;
+                case 'title':
+                    result = text.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); break;
+                case 'sentence':
+                    result = text.replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()); break;
+            }
+            document.getElementById("outputText").value = result;
+        }
+    </script>
+</body>
+</html>

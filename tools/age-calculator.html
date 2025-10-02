@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Age Calculator</title>
+    <meta name="description" content="Use our free online Age Calculator to calculate your exact age from your date of birth.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <h1>Age Calculator</h1>
+    <label>Enter your birthdate:</label>
+    <input type="date" id="dob">
+    <button onclick="calculateAge()">Calculate Age</button>
+    <p>Your age: <span id="ageResult">0</span> years</p>
+    <script>
+        function calculateAge(){
+            const dob = new Date(document.getElementById("dob").value);
+            if(!dob.getTime()){ alert("Please enter a valid date"); return;}
+            const diff = Date.now() - dob.getTime();
+            const age = new Date(diff).getUTCFullYear() - 1970;
+            document.getElementById("ageResult").textContent = age;
+        }
+    </script>
+</body>
+</html>

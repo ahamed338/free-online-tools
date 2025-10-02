@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Free Word Counter</title>
+    <meta name="description" content="Use our free online Word Counter tool to quickly and easily count words and characters online.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <h1>Word Counter</h1>
+    <textarea id="textInput" rows="10" cols="60" placeholder="Type or paste text here..."></textarea>
+    <p>Words: <span id="wordCount">0</span></p>
+    <p>Characters: <span id="charCount">0</span></p>
+    <script>
+        const textInput = document.getElementById("textInput");
+        const wordCount = document.getElementById("wordCount");
+        const charCount = document.getElementById("charCount");
+        textInput.addEventListener("input", () => {
+            const text = textInput.value.trim();
+            wordCount.textContent = text === "" ? 0 : text.split(/\s+/).length;
+            charCount.textContent = text.length;
+        });
+    </script>
+</body>
+</html>
