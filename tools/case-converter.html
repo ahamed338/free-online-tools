@@ -50,17 +50,76 @@
                 <label for="outputText">Converted Text:</label>
                 <textarea id="outputText" rows="8" readonly class="text-area output-area"></textarea>
             </div>
+
+            <div class="button-group">
+                <button onclick="copyOutput()" class="copy-btn">Copy Output</button>
+                <button onclick="clearAll()" class="clear-btn">Clear All</button>
+            </div>
+
+            <div class="status-message">
+                <span id="statusText"></span>
+            </div>
         </div>
 
-    <!-- Add this to word-counter.html, case-converter.html, etc. -->
+        <!-- Feedback Section -->
         <div class="feedback-section" style="margin-top: 40px; padding: 25px; background: #e8f5e8; border-radius: 8px; text-align: center;">
             <h3>Help Us Improve!</h3>
             <p>Found this tool useful? Have suggestions for improvements?</p>
-            <a href="../contact.html?tool=word-counter" class="generate-btn" style="display: inline-block; margin-top: 15px; text-decoration: none;">
+            <a href="../contact.html?tool=case-converter" class="generate-btn" style="display: inline-block; margin-top: 15px; text-decoration: none;">
                 Share Your Feedback
             </a>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Free Online Tools</h3>
+                <p>Your trusted companion for everyday digital tasks. Fast, free, and privacy-focused tools for everyone.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Twitter">🐦</a>
+                    <a href="#" class="social-link" title="GitHub">💻</a>
+                    <a href="#" class="social-link" title="LinkedIn">👔</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Tools</h3>
+                <ul class="footer-links">
+                    <li><a href="../tools/word-counter.html">Word Counter</a></li>
+                    <li><a href="../tools/case-converter.html">Case Converter</a></li>
+                    <li><a href="../tools/json-formatter.html">JSON Formatter</a></li>
+                    <li><a href="../tools/age-calculator.html">Age Calculator</a></li>
+                    <li><a href="../tools/unit-converter.html">Unit Converter</a></li>
+                    <li><a href="../tools/lorem-ipsum.html">Lorem Ipsum</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="../about.html">About Us</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                    <li><a href="../privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="../contact.html">Help & Support</a></li>
+                    <li><a href="../contact.html">Report a Bug</a></li>
+                    <li><a href="../contact.html">Suggest a Tool</a></li>
+                    <li><a href="../contact.html">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Free Online Tools. All rights reserved. | Designed with ❤️ for the community</p>
+        </div>
+    </footer>
 
     <script>
         function convertText(type) {
@@ -68,7 +127,7 @@
             let result = '';
             
             if (!text.trim()) {
-                alert("Please enter some text to convert.");
+                showStatus("Please enter some text to convert.", "error");
                 return;
             }
             
@@ -87,11 +146,43 @@
                     break;
             }
             document.getElementById("outputText").value = result;
+            showStatus("Text converted successfully!", "success");
+        }
+
+        function copyOutput() {
+            const output = document.getElementById("outputText");
+            if (!output.value.trim()) {
+                showStatus("No text to copy. Please convert some text first.", "error");
+                return;
+            }
+
+            output.select();
+            output.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(output.value)
+                .then(() => {
+                    showStatus("Converted text copied to clipboard!", "success");
+                })
+                .catch(err => {
+                    showStatus("Failed to copy text.", "error");
+                });
+        }
+
+        function clearAll() {
+            document.getElementById("inputText").value = "";
+            document.getElementById("outputText").value = "";
+            showStatus("All fields cleared.", "info");
+        }
+
+        function showStatus(message, type) {
+            const statusText = document.getElementById("statusText");
+            statusText.textContent = message;
+            statusText.className = type;
         }
 
         // Clear output when input changes
         document.getElementById('inputText').addEventListener('input', function() {
             document.getElementById('outputText').value = '';
+            document.getElementById('statusText').textContent = '';
         });
     </script>
 </body>

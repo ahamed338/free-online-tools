@@ -83,17 +83,71 @@
                     <span id="conversionText"></span>
                 </div>
             </div>
+
+            <div class="status-message">
+                <span id="statusText"></span>
+            </div>
         </div>
 
-        <!-- Add this to word-counter.html, case-converter.html, etc. -->
+        <!-- Feedback Section -->
         <div class="feedback-section" style="margin-top: 40px; padding: 25px; background: #e8f5e8; border-radius: 8px; text-align: center;">
             <h3>Help Us Improve!</h3>
             <p>Found this tool useful? Have suggestions for improvements?</p>
-            <a href="../contact.html?tool=word-counter" class="generate-btn" style="display: inline-block; margin-top: 15px; text-decoration: none;">
+            <a href="../contact.html?tool=unit-converter" class="generate-btn" style="display: inline-block; margin-top: 15px; text-decoration: none;">
                 Share Your Feedback
             </a>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Free Online Tools</h3>
+                <p>Your trusted companion for everyday digital tasks. Fast, free, and privacy-focused tools for everyone.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Twitter">🐦</a>
+                    <a href="#" class="social-link" title="GitHub">💻</a>
+                    <a href="#" class="social-link" title="LinkedIn">👔</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Tools</h3>
+                <ul class="footer-links">
+                    <li><a href="../tools/word-counter.html">Word Counter</a></li>
+                    <li><a href="../tools/case-converter.html">Case Converter</a></li>
+                    <li><a href="../tools/json-formatter.html">JSON Formatter</a></li>
+                    <li><a href="../tools/age-calculator.html">Age Calculator</a></li>
+                    <li><a href="../tools/unit-converter.html">Unit Converter</a></li>
+                    <li><a href="../tools/lorem-ipsum.html">Lorem Ipsum</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="../about.html">About Us</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                    <li><a href="../privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="../contact.html">Help & Support</a></li>
+                    <li><a href="../contact.html">Report a Bug</a></li>
+                    <li><a href="../contact.html">Suggest a Tool</a></li>
+                    <li><a href="../contact.html">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Free Online Tools. All rights reserved. | Designed with ❤️ for the community</p>
+        </div>
+    </footer>
 
     <script>
         const unitCategories = {
@@ -187,15 +241,16 @@
             const inputVal = parseFloat(document.getElementById("inputVal").value);
             const fromUnit = document.getElementById("fromUnit").value;
             const toUnit = document.getElementById("toUnit").value;
+            const statusText = document.getElementById("statusText");
             
             if (isNaN(inputVal) || inputVal < 0) {
-                showResult("Please enter a valid positive number", "error");
+                showStatus("Please enter a valid positive number", "error");
                 return;
             }
 
             // Check if conversion is possible
             if (fromUnit === toUnit) {
-                showResult("Please select different units to convert", "error");
+                showStatus("Please select different units to convert", "error");
                 return;
             }
 
@@ -205,7 +260,7 @@
             if (conversionRates[conversionKey]) {
                 result = inputVal * conversionRates[conversionKey];
             } else {
-                showResult("Conversion not available between selected units", "error");
+                showStatus("Conversion not available between selected units", "error");
                 return;
             }
 
@@ -225,7 +280,7 @@
             const conversionText = `${inputVal} ${fromUnitName} = ${result.toFixed(6)} ${toUnitName}`;
             document.getElementById("conversionText").textContent = conversionText;
             
-            showResult("Conversion successful!", "success");
+            showStatus("Conversion successful!", "success");
         }
 
         function swapUnits() {
@@ -245,12 +300,13 @@
             document.getElementById("resultVal").textContent = "0";
             document.getElementById("resultUnit").textContent = "";
             document.getElementById("conversionText").textContent = "";
-            showResult("Input cleared", "info");
+            showStatus("Input cleared", "info");
         }
 
-        function showResult(message, type) {
-            // You can add status message display here if needed
-            console.log(`${type}: ${message}`);
+        function showStatus(message, type) {
+            const statusText = document.getElementById("statusText");
+            statusText.textContent = message;
+            statusText.className = type;
         }
 
         // Initialize on page load
@@ -264,24 +320,5 @@
             document.getElementById('category').addEventListener('change', convertUnit);
         });
     </script>
-
-    <style>
-        .input-row {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-        }
-        
-        .input-row .input-group {
-            flex: 1;
-        }
-        
-        @media (max-width: 768px) {
-            .input-row {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
-    </style>
 </body>
 </html>

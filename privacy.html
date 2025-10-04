@@ -8,50 +8,81 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         .policy-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 40px 20px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
         }
         
         .policy-section {
-            margin-bottom: 30px;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
         }
         
         .policy-section h2 {
             color: #2c3e50;
             border-bottom: 2px solid #4CAF50;
             padding-bottom: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
         }
         
         .policy-section h3 {
             color: #34495e;
-            margin: 20px 0 10px 0;
+            margin: 25px 0 15px 0;
+            font-size: 1.2rem;
         }
         
         .policy-section p, .policy-section ul {
             line-height: 1.8;
             color: #555;
+            margin-bottom: 15px;
         }
         
         .policy-section ul {
-            padding-left: 20px;
+            padding-left: 25px;
         }
         
         .policy-section li {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .policy-section li:before {
+            content: "•";
+            color: #4CAF50;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
         }
         
         .last-updated {
             background: #e8f5e8;
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             margin-bottom: 30px;
             text-align: center;
             border-left: 4px solid #4CAF50;
+            font-size: 1.1rem;
+        }
+        
+        .highlight-box {
+            background: #f8f9fa;
+            border-left: 4px solid #4CAF50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .contact-info {
+            background: #e8f5e8;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: center;
         }
     </style>
 </head>
@@ -64,92 +95,189 @@
         <a href="tools/age-calculator.html">Age Calculator</a>
         <a href="tools/unit-converter.html">Unit Converter</a>
         <a href="tools/lorem-ipsum.html">Lorem Ipsum</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
     </nav>
 
     <main>
         <div class="policy-container">
-            <div class="tool-header">
-                <h1>Privacy Policy</h1>
-                <p class="tool-description">Your privacy is important to us. Learn how we protect and handle your data.</p>
-            </div>
+            <div class="policy-section">
+                <div class="tool-header">
+                    <h1>Privacy Policy</h1>
+                    <p class="tool-description">Your privacy is important to us. Learn how we protect and handle your data.</p>
+                </div>
 
             <div class="last-updated">
-                <strong>Last Updated:</strong> December 1, 2024
+                <strong>Last Updated:</strong> October 4, 2024
+            </div>
+
+                <div class="highlight-box">
+                    <p><strong>Important:</strong> Our tools process all data locally in your browser. Your text, files, and other input never leave your device unless you explicitly choose to save or share them.</p>
+                </div>
             </div>
 
             <div class="policy-section">
                 <h2>1. Information We Collect</h2>
-                <p>Our tools are designed with privacy in mind. We collect minimal information to provide our services:</p>
+                <p>Our tools are designed with privacy as a core principle. We collect minimal information to provide our services:</p>
+                
+                <h3>Text and File Input</h3>
+                <p>The text, data, and files you input into our tools are processed entirely in your web browser. This means:</p>
                 <ul>
-                    <li><strong>Text Input:</strong> The text you enter into our tools is processed locally in your browser and is not stored on our servers</li>
-                    <li><strong>Usage Data:</strong> We may collect anonymous usage statistics to improve our services</li>
-                    <li><strong>Cookies:</strong> We use essential cookies for website functionality</li>
+                    <li>Your data never gets sent to our servers</li>
+                    <li>No permanent storage of your input on our systems</li>
+                    <li>Complete control over your data at all times</li>
+                </ul>
+
+                <h3>Automatically Collected Information</h3>
+                <p>Like most websites, we automatically collect certain information when you visit our site:</p>
+                <ul>
+                    <li><strong>Usage Data:</strong> Anonymous usage statistics to improve our services</li>
+                    <li><strong>Technical Information:</strong> Browser type, device type, and IP address</li>
+                    <li><strong>Cookies:</strong> Essential cookies for website functionality</li>
                 </ul>
             </div>
 
             <div class="policy-section">
                 <h2>2. How We Use Your Information</h2>
-                <p>We use collected information for:</p>
+                <p>We use collected information solely for the following purposes:</p>
                 <ul>
-                    <li>Providing and maintaining our tools</li>
-                    <li>Improving user experience</li>
-                    <li>Analyzing tool usage patterns</li>
-                    <li>Preventing abuse and ensuring security</li>
+                    <li><strong>Providing Services:</strong> Operating and maintaining our tools</li>
+                    <li><strong>Improving User Experience:</strong> Analyzing usage patterns to enhance functionality</li>
+                    <li><strong>Website Analytics:</strong> Understanding how visitors use our site</li>
+                    <li><strong>Security:</strong> Preventing abuse and ensuring service integrity</li>
+                    <li><strong>Communication:</strong> Responding to your inquiries and feedback</li>
                 </ul>
             </div>
 
             <div class="policy-section">
                 <h2>3. Data Storage and Security</h2>
-                <h3>Local Processing</h3>
-                <p>All tool processing happens locally in your web browser. Your data never leaves your device unless you explicitly choose to save or share it.</p>
                 
-                <h3>No Permanent Storage</h3>
-                <p>We do not permanently store the content you process through our tools. Data is temporarily cached in your browser for better performance.</p>
+                <h3>Local Processing</h3>
+                <p>All tool processing happens locally in your web browser using JavaScript. Your data:</p>
+                <ul>
+                    <li>Is processed entirely on your device</li>
+                    <li>Never transmitted to our servers</li>
+                    <li>Remains under your complete control</li>
+                </ul>
+
+                <h3>Temporary Storage</h3>
+                <p>For better user experience, some tools may temporarily cache data in your browser's local storage:</p>
+                <ul>
+                    <li>This data remains on your device only</li>
+                    <li>You can clear this data anytime using browser settings</li>
+                    <li>No sensitive information is stored permanently</li>
+                </ul>
+
+                <h3>Security Measures</h3>
+                <p>We implement appropriate security measures including:</p>
+                <ul>
+                    <li>HTTPS encryption for all data transmission</li>
+                    <li>Regular security updates and monitoring</li>
+                    <li>Secure hosting infrastructure</li>
+                </ul>
             </div>
 
             <div class="policy-section">
                 <h2>4. Third-Party Services</h2>
+                
                 <h3>Google AdSense</h3>
                 <p>We use Google AdSense to display advertisements. Google may use cookies to serve ads based on your prior visits to our website or other websites.</p>
                 <p>You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank">Google Ads Settings</a>.</p>
-                
+
                 <h3>Analytics</h3>
-                <p>We may use analytics services to understand how our tools are used and to improve our services.</p>
+                <p>We use analytics services to understand how our tools are used and to improve user experience. This data is aggregated and anonymous.</p>
+
+                <h3>External Links</h3>
+                <p>Our website may contain links to external sites. We are not responsible for the privacy practices of these external sites.</p>
             </div>
 
             <div class="policy-section">
                 <h2>5. Your Rights</h2>
-                <p>You have the right to:</p>
+                <p>You have the following rights regarding your personal information:</p>
                 <ul>
-                    <li>Access any personal information we hold about you</li>
-                    <li>Request correction of inaccurate information</li>
-                    <li>Request deletion of your personal data</li>
-                    <li>Opt-out of data collection where possible</li>
+                    <li><strong>Right to Access:</strong> Request information about what data we hold about you</li>
+                    <li><strong>Right to Correction:</strong> Request correction of inaccurate information</li>
+                    <li><strong>Right to Deletion:</strong> Request deletion of your personal data</li>
+                    <li><strong>Right to Object:</strong> Object to certain types of processing</li>
+                    <li><strong>Right to Portability:</strong> Request your data in a portable format</li>
                 </ul>
             </div>
 
             <div class="policy-section">
                 <h2>6. Children's Privacy</h2>
-                <p>Our services are not directed to individuals under 13. We do not knowingly collect personal information from children under 13.</p>
+                <p>Our services are not directed to individuals under the age of 13. We do not knowingly collect personal information from children under 13.</p>
+                <p>If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately.</p>
             </div>
 
             <div class="policy-section">
                 <h2>7. Changes to This Policy</h2>
-                <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.</p>
+                <p>We may update our Privacy Policy from time to time. We will notify you of any changes by:</p>
+                <ul>
+                    <li>Posting the new Privacy Policy on this page</li>
+                    <li>Updating the "Last Updated" date at the top of this policy</li>
+                    <li>Where appropriate, providing additional notification</li>
+                </ul>
+                <p>We encourage you to review this Privacy Policy periodically for any changes.</p>
             </div>
 
-            <div class="policy-section">
+            <div class="contact-info">
                 <h2>8. Contact Us</h2>
-                <p>If you have any questions about this Privacy Policy, please contact us:</p>
-                <ul>
+                <p>If you have any questions about this Privacy Policy, please don't hesitate to contact us:</p>
+                <ul style="text-align: center; list-style: none; padding: 0;">
                     <li>Email: privacy@free-online-tools.com</li>
                     <li>Through our <a href="contact.html">Contact Form</a></li>
                 </ul>
+                <p>We typically respond to privacy-related inquiries within 48 hours.</p>
             </div>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Free Online Tools</h3>
+                <p>Your trusted companion for everyday digital tasks. Fast, free, and privacy-focused tools for everyone.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Twitter">🐦</a>
+                    <a href="#" class="social-link" title="GitHub">💻</a>
+                    <a href="#" class="social-link" title="LinkedIn">👔</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Tools</h3>
+                <ul class="footer-links">
+                    <li><a href="tools/word-counter.html">Word Counter</a></li>
+                    <li><a href="tools/case-converter.html">Case Converter</a></li>
+                    <li><a href="tools/json-formatter.html">JSON Formatter</a></li>
+                    <li><a href="tools/age-calculator.html">Age Calculator</a></li>
+                    <li><a href="tools/unit-converter.html">Unit Converter</a></li>
+                    <li><a href="tools/lorem-ipsum.html">Lorem Ipsum</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Help & Support</a></li>
+                    <li><a href="contact.html">Report a Bug</a></li>
+                    <li><a href="contact.html">Suggest a Tool</a></li>
+                    <li><a href="contact.html">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Free Online Tools. All rights reserved. | Designed with ❤️ for the community</p>
+        </div>
+    </footer>
 </body>
 </html>

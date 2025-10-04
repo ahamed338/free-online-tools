@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Age Calculator – Free Online Tools</title>
+    <meta name="description" content="Calculate your exact age quickly with our free Age Calculator tool.">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-
-    <!-- Navbar -->
     <nav class="navbar">
         <a href="../index.html">Home</a>
         <a href="word-counter.html">Word Counter</a>
@@ -19,35 +18,175 @@
         <a href="lorem-ipsum.html">Lorem Ipsum</a>
     </nav>
 
-    <main>
-        <div class="tool-container">
-            <div class="tool-header">
-                <img src="../icons/age-calculator.svg" alt="Age Calculator Icon" class="tool-icon">
-                <h1>Age Calculator</h1>
-                <p class="tool-description">Calculate your exact age from your birthdate quickly and easily.</p>
+    <main class="tool-container">
+        <div class="tool-header">
+            <img src="../icons/age-calculator.svg" alt="Age Calculator Icon" class="tool-icon">
+            <h1>Age Calculator</h1>
+            <p class="tool-description">Calculate your exact age from your birthdate quickly and easily.</p>
+        </div>
+
+        <div class="calculator-container" style="width: 100%; max-width: 500px; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 3px 15px rgba(0,0,0,0.1);">
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="dob">Enter your birthdate:</label>
+                    <input type="date" id="dob" name="dob" class="form-control">
+                </div>
             </div>
 
-            <div class="calculator-form">
-                <label for="dob">Enter your birthdate:</label>
-                <input type="date" id="dob" name="dob">
-                <button onclick="calculateAge()">Calculate Age</button>
+            <div class="button-group">
+                <button onclick="calculateAge()" class="calculate-btn">Calculate Age</button>
+                <button onclick="clearDate()" class="clear-btn">Clear</button>
             </div>
 
-            <div id="age-result" class="age-result">
-                <p>Your age: <span id="age">0</span> years</p>
+            <div class="result-section">
+                <div class="result-card">
+                    <span class="result-label">Your Age:</span>
+                    <span id="age" class="result-value">0</span>
+                    <span class="result-unit">years</span>
+                </div>
+                <div class="conversion-details">
+                    <span id="ageDetails"></span>
+                </div>
+            </div>
+
+            <div class="status-message">
+                <span id="statusText"></span>
             </div>
         </div>
 
-        <!-- Add this to word-counter.html, case-converter.html, etc. -->
+        <!-- Feedback Section -->
         <div class="feedback-section" style="margin-top: 40px; padding: 25px; background: #e8f5e8; border-radius: 8px; text-align: center;">
             <h3>Help Us Improve!</h3>
             <p>Found this tool useful? Have suggestions for improvements?</p>
-            <a href="../contact.html?tool=word-counter" class="generate-btn" style="display: inline-block; margin-top: 15px; text-decoration: none;">
+            <a href="../contact.html?tool=age-calculator" class="generate-btn" style="display: inline-block; margin-top: 15px; text-decoration: none;">
                 Share Your Feedback
             </a>
         </div>
     </main>
 
-    <script src="../js/common.js"></script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Free Online Tools</h3>
+                <p>Your trusted companion for everyday digital tasks. Fast, free, and privacy-focused tools for everyone.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Twitter">🐦</a>
+                    <a href="#" class="social-link" title="GitHub">💻</a>
+                    <a href="#" class="social-link" title="LinkedIn">👔</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Tools</h3>
+                <ul class="footer-links">
+                    <li><a href="../tools/word-counter.html">Word Counter</a></li>
+                    <li><a href="../tools/case-converter.html">Case Converter</a></li>
+                    <li><a href="../tools/json-formatter.html">JSON Formatter</a></li>
+                    <li><a href="../tools/age-calculator.html">Age Calculator</a></li>
+                    <li><a href="../tools/unit-converter.html">Unit Converter</a></li>
+                    <li><a href="../tools/lorem-ipsum.html">Lorem Ipsum</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="../about.html">About Us</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                    <li><a href="../privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="../contact.html">Help & Support</a></li>
+                    <li><a href="../contact.html">Report a Bug</a></li>
+                    <li><a href="../contact.html">Suggest a Tool</a></li>
+                    <li><a href="../contact.html">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Free Online Tools. All rights reserved. | Designed with ❤️ for the community</p>
+        </div>
+    </footer>
+
+    <script>
+        function calculateAge() {
+            const dobInput = document.getElementById('dob');
+            const ageResult = document.getElementById('age');
+            const ageDetails = document.getElementById('ageDetails');
+            const statusText = document.getElementById('statusText');
+            
+            if (!dobInput.value) {
+                showStatus('Please enter your birthdate.', 'error');
+                return;
+            }
+            
+            const birthDate = new Date(dobInput.value);
+            const today = new Date();
+            
+            // Check if birthdate is in the future
+            if (birthDate > today) {
+                showStatus('Birthdate cannot be in the future.', 'error');
+                return;
+            }
+            
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            // Adjust age if birthday hasn't occurred this year
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            // Calculate months and days
+            let months = today.getMonth() - birthDate.getMonth();
+            let days = today.getDate() - birthDate.getDate();
+            
+            if (days < 0) {
+                months--;
+                // Get days in previous month
+                const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            
+            if (months < 0) {
+                months += 12;
+            }
+            
+            ageResult.textContent = age;
+            ageDetails.textContent = `That's ${age} years, ${months} months, and ${days} days old.`;
+            showStatus('Age calculated successfully!', 'success');
+        }
+
+        function clearDate() {
+            document.getElementById('dob').value = '';
+            document.getElementById('age').textContent = '0';
+            document.getElementById('ageDetails').textContent = '';
+            showStatus('Date cleared.', 'info');
+        }
+
+        function showStatus(message, type) {
+            const statusText = document.getElementById('statusText');
+            statusText.textContent = message;
+            statusText.className = type;
+        }
+
+        // Auto-calculate when date changes
+        document.addEventListener('DOMContentLoaded', function() {
+            const dobInput = document.getElementById('dob');
+            if (dobInput) {
+                dobInput.addEventListener('change', calculateAge);
+            }
+            
+            // Set max date to today
+            const today = new Date().toISOString().split('T')[0];
+            dobInput.setAttribute('max', today);
+        });
+    </script>
 </body>
 </html>
