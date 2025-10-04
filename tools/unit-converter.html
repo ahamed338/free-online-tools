@@ -37,32 +37,33 @@
         <div class="converter-container">
             <div class="input-section">
                 <div class="input-group">
+                    <label for="category">Category:</label>
+                    <select id="category" class="select-input" onchange="updateUnitOptions()">
+                        <option value="length">Length</option>
+                        <option value="weight">Weight</option>
+                        <option value="volume">Volume</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
                     <label for="inputVal">Enter value:</label>
                     <input type="number" id="inputVal" value="1" min="0" step="any" class="number-input">
                 </div>
 
-                <div class="input-group">
-                    <label for="fromUnit">From:</label>
-                    <select id="fromUnit" class="select-input">
-                        <option value="meters">Meters (m)</option>
-                        <option value="feet">Feet (ft)</option>
-                        <option value="kilograms">Kilograms (kg)</option>
-                        <option value="pounds">Pounds (lb)</option>
-                        <option value="liters">Liters (L)</option>
-                        <option value="gallons">Gallons (gal)</option>
-                    </select>
-                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="fromUnit">From:</label>
+                        <select id="fromUnit" class="select-input">
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
 
-                <div class="input-group">
-                    <label for="toUnit">To:</label>
-                    <select id="toUnit" class="select-input">
-                        <option value="feet">Feet (ft)</option>
-                        <option value="meters">Meters (m)</option>
-                        <option value="pounds">Pounds (lb)</option>
-                        <option value="kilograms">Kilograms (kg)</option>
-                        <option value="gallons">Gallons (gal)</option>
-                        <option value="liters">Liters (L)</option>
-                    </select>
+                    <div class="input-group">
+                        <label for="toUnit">To:</label>
+                        <select id="toUnit" class="select-input">
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -86,17 +87,92 @@
     </main>
 
     <script>
+        const unitCategories = {
+            length: [
+                { value: 'meters', name: 'Meters', symbol: 'm' },
+                { value: 'feet', name: 'Feet', symbol: 'ft' },
+                { value: 'kilometers', name: 'Kilometers', symbol: 'km' },
+                { value: 'miles', name: 'Miles', symbol: 'mi' },
+                { value: 'centimeters', name: 'Centimeters', symbol: 'cm' },
+                { value: 'inches', name: 'Inches', symbol: 'in' }
+            ],
+            weight: [
+                { value: 'kilograms', name: 'Kilograms', symbol: 'kg' },
+                { value: 'pounds', name: 'Pounds', symbol: 'lb' },
+                { value: 'grams', name: 'Grams', symbol: 'g' },
+                { value: 'ounces', name: 'Ounces', symbol: 'oz' }
+            ],
+            volume: [
+                { value: 'liters', name: 'Liters', symbol: 'L' },
+                { value: 'gallons', name: 'Gallons', symbol: 'gal' },
+                { value: 'milliliters', name: 'Milliliters', symbol: 'ml' },
+                { value: 'cups', name: 'Cups', symbol: 'cups' }
+            ]
+        };
+
         const conversionRates = {
             // Length conversions
             'meters-feet': 3.28084,
             'feet-meters': 0.3048,
+            'meters-kilometers': 0.001,
+            'kilometers-meters': 1000,
+            'meters-centimeters': 100,
+            'centimeters-meters': 0.01,
+            'feet-inches': 12,
+            'inches-feet': 0.0833333,
+            'kilometers-miles': 0.621371,
+            'miles-kilometers': 1.60934,
+            
             // Weight conversions
             'kilograms-pounds': 2.20462,
             'pounds-kilograms': 0.453592,
+            'kilograms-grams': 1000,
+            'grams-kilograms': 0.001,
+            'pounds-ounces': 16,
+            'ounces-pounds': 0.0625,
+            
             // Volume conversions
             'liters-gallons': 0.264172,
-            'gallons-liters': 3.78541
+            'gallons-liters': 3.78541,
+            'liters-milliliters': 1000,
+            'milliliters-liters': 0.001,
+            'gallons-cups': 16,
+            'cups-gallons': 0.0625,
+            'liters-cups': 4.22675,
+            'cups-liters': 0.236588
         };
+
+        function updateUnitOptions() {
+            const category = document.getElementById("category").value;
+            const fromUnit = document.getElementById("fromUnit");
+            const toUnit = document.getElementById("toUnit");
+            const units = unitCategories[category];
+            
+            // Clear existing options
+            fromUnit.innerHTML = '';
+            toUnit.innerHTML = '';
+            
+            // Add new options
+            units.forEach(unit => {
+                const fromOption = document.createElement('option');
+                fromOption.value = unit.value;
+                fromOption.textContent = `${unit.name} (${unit.symbol})`;
+                fromUnit.appendChild(fromOption);
+                
+                const toOption = document.createElement('option');
+                toOption.value = unit.value;
+                toOption.textContent = `${unit.name} (${unit.symbol})`;
+                toUnit.appendChild(toOption);
+            });
+            
+            // Set different default "to" unit
+            if (units.length > 1) {
+                toUnit.selectedIndex = 1;
+            }
+            
+            // Trigger conversion with new units
+            convertUnit();
+        }
 
         function convertUnit() {
             const inputVal = parseFloat(document.getElementById("inputVal").value);
@@ -116,22 +192,28 @@
 
             const conversionKey = `${fromUnit}-${toUnit}`;
             let result = 0;
-            let conversionRate = 0;
 
             if (conversionRates[conversionKey]) {
-                conversionRate = conversionRates[conversionKey];
-                result = inputVal * conversionRate;
+                result = inputVal * conversionRates[conversionKey];
             } else {
                 showResult("Conversion not available between selected units", "error");
                 return;
             }
 
             // Update result display
-            document.getElementById("resultVal").textContent = result.toFixed(4);
-            document.getElementById("resultUnit").textContent = getUnitSymbol(toUnit);
+            const toUnitSymbol = unitCategories[document.getElementById("category").value]
+                .find(unit => unit.value === toUnit).symbol;
+            
+            document.getElementById("resultVal").textContent = result.toFixed(6);
+            document.getElementById("resultUnit").textContent = toUnitSymbol;
             
             // Show conversion details
-            const conversionText = `${inputVal} ${getUnitName(fromUnit)} = ${result.toFixed(4)} ${getUnitName(toUnit)}`;
+            const fromUnitName = unitCategories[document.getElementById("category").value]
+                .find(unit => unit.value === fromUnit).name;
+            const toUnitName = unitCategories[document.getElementById("category").value]
+                .find(unit => unit.value === toUnit).name;
+                
+            const conversionText = `${inputVal} ${fromUnitName} = ${result.toFixed(6)} ${toUnitName}`;
             document.getElementById("conversionText").textContent = conversionText;
             
             showResult("Conversion successful!", "success");
@@ -157,44 +239,40 @@
             showResult("Input cleared", "info");
         }
 
-        function getUnitSymbol(unit) {
-            const symbols = {
-                'meters': 'm',
-                'feet': 'ft',
-                'kilograms': 'kg',
-                'pounds': 'lb',
-                'liters': 'L',
-                'gallons': 'gal'
-            };
-            return symbols[unit] || '';
-        }
-
-        function getUnitName(unit) {
-            const names = {
-                'meters': 'meters',
-                'feet': 'feet',
-                'kilograms': 'kilograms',
-                'pounds': 'pounds',
-                'liters': 'liters',
-                'gallons': 'gallons'
-            };
-            return names[unit] || '';
-        }
-
         function showResult(message, type) {
             // You can add status message display here if needed
             console.log(`${type}: ${message}`);
         }
 
-        // Auto-convert when inputs change
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
+            updateUnitOptions(); // Set initial units
+            
+            // Auto-convert when inputs change
             document.getElementById('inputVal').addEventListener('input', convertUnit);
             document.getElementById('fromUnit').addEventListener('change', convertUnit);
             document.getElementById('toUnit').addEventListener('change', convertUnit);
-            
-            // Initial conversion
-            convertUnit();
+            document.getElementById('category').addEventListener('change', convertUnit);
         });
     </script>
+
+    <style>
+        .input-row {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+        
+        .input-row .input-group {
+            flex: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .input-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
 </body>
 </html>
