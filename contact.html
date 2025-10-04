@@ -215,9 +215,105 @@
             background: #f8f9fa;
             border-radius: 6px;
         }
+
+        /* Modal Popup Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-content.success {
+            border-top: 5px solid #4CAF50;
+        }
+
+        .modal-content.error {
+            border-top: 5px solid #f44336;
+        }
+
+        .modal-content.info {
+            border-top: 5px solid #2196F3;
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .modal-message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .modal-close-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .modal-close-btn:hover {
+            background-color: #45a049;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Modal Popup -->
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content" id="modalContent">
+            <!-- Content will be inserted by JavaScript -->
+        </div>
+    </div>
+
     <nav class="navbar">
         <a href="index.html">Home</a>
         <a href="tools/word-counter.html">Word Counter</a>
@@ -435,38 +531,70 @@
             faqItem.classList.toggle('active');
         }
 
+        // Create modal popup functions
+        function showModal(message, type) {
+            const modal = document.getElementById('feedbackModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            // Set message and style based on type
+            modalContent.innerHTML = message;
+            modalContent.className = `modal-content ${type}`;
+            
+            // Show modal
+            modal.style.display = 'flex';
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    hideModal();
+                }, 5000);
+            }
+        }
+
+        function hideModal() {
+            const modal = document.getElementById('feedbackModal');
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside content
+        document.getElementById('feedbackModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideModal();
+            }
+        });
+
         document.getElementById('feedbackForm').addEventListener('submit', function(e) {
             const submitBtn = document.getElementById('submitBtn');
-            const feedbackDiv = document.getElementById('formFeedback');
             
             // Show loading state
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending Message...';
             
-            // FormSubmit will handle the actual submission
-            // The form will submit normally to FormSubmit service
+            // Show loading modal
+            showModal(`
+                <div class="modal-icon">🔄</div>
+                <div class="modal-title">Sending Your Message</div>
+                <div class="modal-message">Please wait while we process your feedback...</div>
+            `, 'info');
             
-            // If we're still on the page after 2 seconds, show a message
-            setTimeout(() => {
-                feedbackDiv.className = 'form-feedback info';
-                feedbackDiv.innerHTML = `
-                    <h3>🔄 Sending Your Message...</h3>
-                    <p>Please wait while we process your feedback.</p>
-                `;
-            }, 2000);
+            // FormSubmit will handle the actual submission and redirect
+            // The modal will close when the page redirects
         });
 
         // Show success message if redirected from FormSubmit
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('success') === 'true') {
-                const feedbackDiv = document.getElementById('formFeedback');
-                feedbackDiv.className = 'form-feedback success';
-                feedbackDiv.innerHTML = `
-                    <h3>✅ Message Sent Successfully!</h3>
-                    <p>Thank you for your feedback. We'll get back to you soon!!!</p>
-                    <p><small>We typically respond within 24-48 hours.</small></p>
-                `;
+                showModal(`
+                    <div class="modal-icon">✅</div>
+                    <div class="modal-title">Message Sent Successfully!</div>
+                    <div class="modal-message">
+                        Thank you for your feedback. We'll get back to you soon at rizqflow2001@gmail.com
+                        <br><br>
+                        <small>We typically respond within 24-48 hours.</small>
+                    </div>
+                    <button class="modal-close-btn" onclick="hideModal()">Close</button>
+                `, 'success');
                 
                 // Clear the URL parameters
                 window.history.replaceState({}, document.title, window.location.pathname);
