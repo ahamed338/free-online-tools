@@ -137,6 +137,13 @@
             border: 2px solid #f5c6cb;
             display: block;
         }
+
+        .form-feedback.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 2px solid #bee5eb;
+            display: block;
+        }
         
         .faq-section {
             margin-top: 50px;
@@ -244,7 +251,12 @@
                     </div>
                 </div>
 
-                <form id="feedbackForm">
+                <form id="feedbackForm" action="https://formsubmit.co/rizqflow2001@gmail.com" method="POST">
+                    <input type="hidden" name="_subject" value="New Feedback - Free Online Tools">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://free-online-tools-bxs.pages.dev/contact.html?success=true">
+
                     <div class="form-group">
                         <label for="name">Your Name <span class="required">(Optional)</span></label>
                         <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name">
@@ -377,7 +389,7 @@
             <div class="footer-section">
                 <h3>Free Online Tools</h3>
                 <p>Your trusted companion for everyday digital tasks. Fast, free, and privacy-focused tools for everyone.</p>
-<!-- Social links removed - Focus on providing great tools! -->
+                <!-- Social links removed - Focus on providing great tools! -->
             </div>
             
             <div class="footer-section">
@@ -424,51 +436,41 @@
         }
 
         document.getElementById('feedbackForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             const submitBtn = document.getElementById('submitBtn');
             const feedbackDiv = document.getElementById('formFeedback');
             
-            // Disable submit button and show loading state
+            // Show loading state
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending Message...';
             
-            // Get form data
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                category: document.getElementById('category').value,
-                tool: document.getElementById('tool').value,
-                subject: document.getElementById('subject').value,
-                message: document.getElementById('message').value,
-                timestamp: new Date().toISOString()
-            };
+            // FormSubmit will handle the actual submission
+            // The form will submit normally to FormSubmit service
             
-            // Simulate form submission (in real implementation, this would be an API call)
+            // If we're still on the page after 2 seconds, show a message
             setTimeout(() => {
-                // Show success message
+                feedbackDiv.className = 'form-feedback info';
+                feedbackDiv.innerHTML = `
+                    <h3>🔄 Sending Your Message...</h3>
+                    <p>Please wait while we process your feedback.</p>
+                `;
+            }, 2000);
+        });
+
+        // Show success message if redirected from FormSubmit
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                const feedbackDiv = document.getElementById('formFeedback');
                 feedbackDiv.className = 'form-feedback success';
                 feedbackDiv.innerHTML = `
                     <h3>✅ Message Sent Successfully!</h3>
-                    <p>Thank you for your feedback. We'll get back to you soon.</p>
+                    <p>Thank you for your feedback. We'll get back to you soon at rizqflow2001@gmail.com</p>
                     <p><small>We typically respond within 24-48 hours.</small></p>
                 `;
                 
-                // Log the form data (in real implementation, this would be sent to a server)
-                console.log('Form submission:', formData);
-                
-                // Reset form
-                document.getElementById('feedbackForm').reset();
-                
-                // Re-enable submit button
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-                
-                // Hide success message after 8 seconds
-                setTimeout(() => {
-                    feedbackDiv.style.display = 'none';
-                }, 8000);
-            }, 2000);
+                // Clear the URL parameters
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
         });
 
         // Add input validation with visual feedback
