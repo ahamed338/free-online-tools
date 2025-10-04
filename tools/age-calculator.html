@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Age Calculator</title>
-    <meta name="description" content="Use our free online Age Calculator to calculate your exact age from your date of birth.">
-    <meta property="og:title" content="Age Calculator">
-    <meta property="og:description" content="Calculate your exact age from your birthdate quickly and easily.">
+    <title>Age Calculator – Free Online Tools</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+
+    <!-- Navbar -->
     <nav class="navbar">
         <a href="../index.html">Home</a>
         <a href="word-counter.html">Word Counter</a>
@@ -20,53 +19,26 @@
         <a href="lorem-ipsum.html">Lorem Ipsum</a>
     </nav>
 
-    <main class="tool-container">
-        <div class="tool-header">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="tool-icon">
-                <rect x="8" y="8" width="48" height="48" rx="4" fill="#EF4444" stroke="#DC2626" stroke-width="2"/>
-                <circle cx="32" cy="26" r="8" fill="#FEE2E2"/>
-                <path d="M24 40L40 40" stroke="#FEE2E2" stroke-width="3"/>
-                <circle cx="24" cy="24" r="1" fill="#EF4444"/>
-                <circle cx="40" cy="24" r="1" fill="#EF4444"/>
-                <path d="M28 30Q32 34 36 30" stroke="#EF4444" stroke-width="1.5"/>
-            </svg>
-            <h1>Age Calculator</h1>
-            <p class="tool-description">Calculate your exact age from your birthdate quickly and easily.</p>
-        </div>
-
-        <div class="calculator-container">
-            <div class="input-group">
-                <label for="dob">Enter your birthdate:</label>
-                <input type="date" id="dob" class="date-input">
+    <main>
+        <div class="tool-container">
+            <div class="tool-header">
+                <img src="../icons/age-calculator.svg" alt="Age Calculator Icon" class="tool-icon">
+                <h1>Age Calculator</h1>
+                <p class="tool-description">Calculate your exact age from your birthdate quickly and easily.</p>
             </div>
-            
-            <button onclick="calculateAge()" class="calculate-btn">
-                Calculate Age
-            </button>
-            
-            <div class="result-container">
-                <p>Your age: <span id="ageResult" class="age-result">0</span> years</p>
+
+            <div class="calculator-form">
+                <label for="dob">Enter your birthdate:</label>
+                <input type="date" id="dob" name="dob">
+                <button onclick="calculateAge()">Calculate Age</button>
+            </div>
+
+            <div id="age-result" class="age-result">
+                <p>Your age: <span id="age">0</span> years</p>
             </div>
         </div>
     </main>
 
-    <script>
-        function calculateAge(){
-            const dob = new Date(document.getElementById("dob").value);
-            if(!dob.getTime()){ 
-                alert("Please enter a valid date"); 
-                return;
-            }
-            const diff = Date.now() - dob.getTime();
-            const age = new Date(diff).getUTCFullYear() - 1970;
-            document.getElementById("ageResult").textContent = age;
-        }
-
-        // Set max date to today
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('dob').max = today;
-        });
-    </script>
+    <script src="../js/common.js"></script>
 </body>
 </html>

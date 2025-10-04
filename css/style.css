@@ -1,4 +1,6 @@
-/* Global Styles */
+/* =========================
+   Global Styles
+========================= */
 body { 
     font-family: Arial, sans-serif; 
     margin: 0; 
@@ -26,7 +28,9 @@ h2 {
     color: #2c3e50;
 }
 
-/* Navbar */
+/* =========================
+   Navbar
+========================= */
 .navbar { 
     background: #333; 
     padding: 15px; 
@@ -48,7 +52,9 @@ h2 {
     background-color: #555;
 }
 
-/* Tool Grid */
+/* =========================
+   Homepage Tool Grid
+========================= */
 .tool-grid { 
     display: flex; 
     flex-wrap: wrap; 
@@ -95,7 +101,97 @@ h2 {
     margin: 10px 0 0 0;
 }
 
-/* Responsive */
+/* =========================
+   Tool Pages (All Tools)
+========================= */
+.tool-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tool-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tool-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.tool-description {
+    color: #666;
+    font-size: 16px;
+    max-width: 600px;
+    margin: 10px auto 0 auto;
+    text-align: center;
+}
+
+/* =========================
+   Forms / Calculator / Converter
+========================= */
+.calculator-form,
+.converter-form,
+.json-form,
+.lorem-form,
+.counter-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.calculator-form input,
+.calculator-form button,
+.converter-form input,
+.converter-form button,
+.json-form textarea,
+.lorem-form textarea,
+.counter-form textarea {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.calculator-form button,
+.converter-form button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.calculator-form button:hover,
+.converter-form button:hover {
+    background-color: #45a049;
+}
+
+/* =========================
+   Result / Output Sections
+========================= */
+.age-result,
+.json-result,
+.lorem-result,
+.counter-result {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* =========================
+   Responsive Design
+========================= */
 @media (max-width: 768px) {
     .tool-card {
         width: calc(50% - 20px);
@@ -111,5 +207,15 @@ h2 {
     .navbar a {
         display: block;
         margin: 5px 0;
+    }
+
+    .calculator-form input,
+    .calculator-form button,
+    .converter-form input,
+    .converter-form button,
+    .json-form textarea,
+    .lorem-form textarea,
+    .counter-form textarea {
+        max-width: 100%;
     }
 }
