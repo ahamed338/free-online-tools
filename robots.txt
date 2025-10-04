@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://free-online-tools-bxs.pages.dev/sitemap.xml

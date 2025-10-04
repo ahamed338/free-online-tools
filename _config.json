@@ -1,0 +1,22 @@
+{
+  "name": "free-online-tools",
+  "version": "1.0.0",
+  "description": "A collection of free online tools like word counter, JSON formatter, and more.",
+  "author": "Just Learner",
+  "static_site": true,
+  "build": {
+    "command": "",
+    "directory": "/"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    }
+  ]
+}
