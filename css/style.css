@@ -537,6 +537,32 @@ button {
 }
 
 /* =========================
+   Ad Container Styles
+========================= */
+.ad-container {
+    margin: 20px auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px;
+}
+
+.header-banner {
+    margin: 0 auto 30px auto;
+}
+
+.middle-banner {
+    grid-column: 1 / -1;
+    margin: 30px 0;
+    width: 100%;
+}
+
+.footer-banner {
+    margin: 30px auto;
+}
+
+/* =========================
    Responsive Design
 ========================= */
 @media (max-width: 768px) {
@@ -572,6 +598,15 @@ button {
         flex-direction: column;
         gap: 15px;
     }
+    
+    /* Responsive ad containers */
+    .ad-container {
+        margin: 15px auto;
+    }
+    
+    .middle-banner {
+        margin: 20px 0;
+    }
 }
 
 @media (max-width: 480px) {
@@ -602,5 +637,10 @@ button {
     
     h2 {
         font-size: 1.3rem;
+    }
+    
+    /* Mobile ad containers */
+    .ad-container {
+        margin: 10px auto;
     }
 }

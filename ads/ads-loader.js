@@ -1,61 +1,64 @@
-// Adsterra Ad Loader - Centralized Ad Management
+// Ethical Ad Loader - Multiple Ad Formats
 (function() {
     'use strict';
     
-    // Configuration
-    var config = {
-        adsterraScript: '//pl27784461.revenuecpmgate.com/14/49/1b/14491b7427c906f4194cd3d05a94db47.js',
-        loadDelay: 500, // Small delay to not block initial page render
-        maxRetries: 2,
-        retryDelay: 2000
-    };
-    
-    function loadAdsterraScript(retryCount = 0) {
-        try {
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = config.adsterraScript;
-            script.async = true;
-            
-            // Success handler
-            script.onload = function() {
-                console.log('Adsterra: Pop-under ad loaded successfully');
-                
-                // Track ad load in data layer for analytics (optional)
-                if (window.dataLayer) {
-                    window.dataLayer.push({
-                        'event': 'adsterra_loaded',
-                        'adType': 'pop_under'
-                    });
-                }
+    function loadEthicalAds() {
+        console.log('Loading ethical ads: Banners and Native ads');
+        
+        // 1. 728x90 Leaderboard Banner (for header)
+        var banner728x90 = document.createElement('script');
+        banner728x90.innerHTML = `
+            atOptions = {
+                'key' : '1109981b0059043c07684a806b721fc8',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
             };
-            
-            // Error handler
-            script.onerror = function() {
-                console.warn('Adsterra: Failed to load ad script');
-                
-                // Retry logic
-                if (retryCount < config.maxRetries) {
-                    console.log(`Adsterra: Retrying in ${config.retryDelay}ms... (${retryCount + 1}/${config.maxRetries})`);
-                    setTimeout(function() {
-                        loadAdsterraScript(retryCount + 1);
-                    }, config.retryDelay);
-                } else {
-                    console.error('Adsterra: Max retries exceeded, giving up');
-                }
+        `;
+        document.head.appendChild(banner728x90);
+        
+        var banner728x90Invoke = document.createElement('script');
+        banner728x90Invoke.src = '//www.highperformanceformat.com/1109981b0059043c07684a806b721fc8/invoke.js';
+        document.head.appendChild(banner728x90Invoke);
+        
+        // 2. 300x250 Medium Rectangle Banner (for between tools)
+        var banner300x250 = document.createElement('script');
+        banner300x250.innerHTML = `
+            atOptions = {
+                'key' : '136a0725c35889779749bd7cc05c8410',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
             };
-            
-            // Add to document head
-            document.head.appendChild(script);
-            
-        } catch (error) {
-            console.error('Adsterra: Error loading ad script:', error);
-        }
+        `;
+        document.head.appendChild(banner300x250);
+        
+        var banner300x250Invoke = document.createElement('script');
+        banner300x250Invoke.src = '//www.highperformanceformat.com/136a0725c35889779749bd7cc05c8410/invoke.js';
+        document.head.appendChild(banner300x250Invoke);
+        
+        // 3. Native Ad (blends with content)
+        var nativeAd = document.createElement('script');
+        nativeAd.async = true;
+        nativeAd.setAttribute('data-cfasync', 'false');
+        nativeAd.src = '//pl27784699.revenuecpmgate.com/c6de0174a84784d1b76c33e22ffe41fd/invoke.js';
+        document.head.appendChild(nativeAd);
+        
+        // Create container for native ad
+        var nativeContainer = document.createElement('div');
+        nativeContainer.id = 'container-c6de0174a84784d1b76c33e22ffe41fd';
+        document.body.appendChild(nativeContainer);
+        
+        console.log('All ethical ads loaded successfully');
     }
     
-    // Initialize ad loading with a small delay
-    setTimeout(function() {
-        loadAdsterraScript();
-    }, config.loadDelay);
+    // Load ads when page is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadEthicalAds);
+    } else {
+        loadEthicalAds();
+    }
     
 })();
