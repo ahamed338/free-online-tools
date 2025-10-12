@@ -100,24 +100,86 @@
     display: none;
 }
 
+/* Circular Score Styles */
 .score-card {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    padding: 20px;
+    background: white;
+    padding: 25px;
     border-radius: var(--border-radius);
     text-align: center;
     margin-bottom: 20px;
+    border: 1px solid #eee;
 }
 
-.score-value {
-    font-size: 3rem;
-    font-weight: 700;
-    margin: 10px 0;
+.score-circle {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.circular-chart {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #f0f0f0;
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 3.8;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    stroke-dasharray: 0 100;
+    transition: stroke-dasharray 1s ease-in-out;
+}
+
+.score-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.score-percentage {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: block;
+    line-height: 1;
 }
 
 .score-label {
-    font-size: 1.2rem;
-    opacity: 0.9;
+    font-size: 0.9rem;
+    color: #666;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Color variations based on score */
+.score-excellent .circle { stroke: #2ecc71; }
+.score-excellent .score-percentage { color: #2ecc71; }
+
+.score-good .circle { stroke: #3498db; }
+.score-good .score-percentage { color: #3498db; }
+
+.score-average .circle { stroke: #f39c12; }
+.score-average .score-percentage { color: #f39c12; }
+
+.score-poor .circle { stroke: #e74c3c; }
+.score-poor .score-percentage { color: #e74c3c; }
+
+.score-description {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 10px;
+    font-weight: 600;
 }
 
 .result-item {
@@ -208,5 +270,14 @@
     .upload-section,
     .results-section {
         min-width: 100%;
+    }
+    
+    .score-circle {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .score-percentage {
+        font-size: 1.8rem;
     }
 }

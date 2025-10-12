@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorMessage = document.getElementById('errorMessage');
     const loading = document.getElementById('loading');
     const analysisResults = document.getElementById('analysisResults');
-    const overallScore = document.getElementById('overallScore');
-    const scoreDescription = document.getElementById('scoreDescription');
     const keywordsMatch = document.getElementById('keywordsMatch');
     const skillsAnalysis = document.getElementById('skillsAnalysis');
     const experienceLevel = document.getElementById('experienceLevel');
@@ -129,18 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function generateMockResults() {
         // Generate random but realistic results
         const score = Math.floor(Math.random() * 30) + 70; // Score between 70-100
-        overallScore.textContent = score;
         
-        // Score description
-        if (score >= 90) {
-            scoreDescription.textContent = 'Excellent resume! Minor improvements suggested.';
-        } else if (score >= 80) {
-            scoreDescription.textContent = 'Good resume with some areas for improvement.';
-        } else if (score >= 70) {
-            scoreDescription.textContent = 'Average resume. Several improvements needed.';
-        } else {
-            scoreDescription.textContent = 'Needs significant improvements.';
-        }
+        // Update circular score
+        updateCircularScore(score);
         
         // Keywords match
         const keywordMatchPercent = Math.floor(Math.random() * 20) + 75; // 75-95%
@@ -179,5 +168,58 @@ document.addEventListener('DOMContentLoaded', function() {
             li.textContent = suggestion;
             suggestionsList.appendChild(li);
         });
+    }
+    
+    function updateCircularScore(score) {
+        // Create or update the circular score element
+        let scoreCard = document.querySelector('.score-card');
+        
+        // Remove old score card content
+        scoreCard.innerHTML = '';
+        
+        // Determine score class and description
+        let scoreClass = '';
+        let description = '';
+        
+        if (score >= 90) {
+            scoreClass = 'score-excellent';
+            description = 'Excellent resume! Minor improvements suggested.';
+        } else if (score >= 80) {
+            scoreClass = 'score-good';
+            description = 'Good resume with some areas for improvement.';
+        } else if (score >= 70) {
+            scoreClass = 'score-average';
+            description = 'Average resume. Several improvements needed.';
+        } else {
+            scoreClass = 'score-poor';
+            description = 'Needs significant improvements.';
+        }
+        
+        // Add circular score class
+        scoreCard.className = `score-card ${scoreClass}`;
+        
+        // Create circular score HTML
+        scoreCard.innerHTML = `
+            <div class="score-circle">
+                <svg class="circular-chart" viewBox="0 0 36 36">
+                    <path class="circle-bg"
+                        d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                    />
+                    <path class="circle"
+                        d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                        stroke-dasharray="${score}, 100"
+                    />
+                </svg>
+                <div class="score-text">
+                    <span class="score-percentage">${score}%</span>
+                    <span class="score-label">Score</span>
+                </div>
+            </div>
+            <div class="score-description">${description}</div>
+        `;
     }
 });

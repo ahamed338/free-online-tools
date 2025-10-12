@@ -71,10 +71,28 @@
                     
                     <div class="analysis-results" id="analysisResults">
                         <div class="score-card">
-                            <div class="score-label">Overall Score</div>
-                            <div class="score-value" id="overallScore">0</div>
-                            <div id="scoreDescription">Upload a resume to see your score</div>
-                        </div>
+                        <!-- Circular score will be dynamically inserted here -->
+                            <div class="score-circle">
+                                <svg class="circular-chart" viewBox="0 0 36 36">
+                                    <path class="circle-bg"
+                                        d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                                    />
+                                    <path class="circle"
+                                        d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                                        stroke-dasharray="0, 100"
+                                    />
+                                </svg>
+                                <div class="score-text">
+                                    <span class="score-percentage">0%</span>
+                                    <span class="score-label">Score</span>
+                                </div>
+                            </div>
+                            <div class="score-description">Upload a resume to see your score</div>
+                            </div>
                         
                         <div class="result-item">
                             <div class="result-title">Keywords Match</div>
