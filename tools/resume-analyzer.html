@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer - Free Online Tools</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/resume-analyzer.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-logo">Free Online Tools</a>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../about.html" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../contact.html" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div class="tool-header">
+            <h1>Resume Analyzer</h1>
+            <p>Upload your resume and get instant feedback to improve it</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="resume-analyzer-container">
+                <div class="upload-section">
+                    <h2 class="section-title">Upload Your Resume</h2>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📄</div>
+                        <p>Drag & drop your resume here</p>
+                        <p>or</p>
+                        <button class="btn btn-primary" id="browseBtn">Browse Files</button>
+                        <input type="file" id="fileInput" class="file-input" accept=".pdf,.doc,.docx,.txt">
+                    </div>
+                    
+                    <div class="file-info" id="fileInfo">
+                        <p>Selected file: <span class="file-name" id="fileName"></span></p>
+                        <p class="file-size" id="fileSize"></p>
+                    </div>
+                    
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    
+                    <button class="btn btn-success btn-block" id="analyzeBtn" disabled>Analyze Resume</button>
+                    
+                    <div class="error-message" id="errorMessage"></div>
+                </div>
+                
+                <div class="results-section">
+                    <h2 class="section-title">Analysis Results</h2>
+                    
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Analyzing your resume...</p>
+                    </div>
+                    
+                    <div class="analysis-results" id="analysisResults">
+                        <div class="score-card">
+                            <div class="score-label">Overall Score</div>
+                            <div class="score-value" id="overallScore">0</div>
+                            <div id="scoreDescription">Upload a resume to see your score</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-title">Keywords Match</div>
+                            <div class="result-content" id="keywordsMatch">No data available</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-title">Skills Analysis</div>
+                            <div class="result-content" id="skillsAnalysis">No data available</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-title">Experience Level</div>
+                            <div class="result-content" id="experienceLevel">No data available</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-title">Improvement Suggestions</div>
+                            <div class="result-content">
+                                <ul class="suggestions-list" id="suggestionsList">
+                                    <li>Upload a resume to get personalized suggestions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Free Online Tools. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="../privacy.html">Privacy Policy</a>
+                <a href="../contact.html">Contact</a>
+                <a href="../about.html">About</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/resume-analyzer.js"></script>
+</body>
+</html>
