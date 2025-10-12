@@ -124,6 +124,68 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 50);
     }
     
+    function updateCircularScore(score) {
+        // Create or update the circular score element
+        let scoreCard = document.querySelector('.score-card');
+        
+        // Remove old score card content
+        scoreCard.innerHTML = '';
+        
+        // Determine score class and description
+        let scoreClass = '';
+        let description = '';
+        
+        if (score >= 90) {
+            scoreClass = 'score-excellent';
+            description = 'Excellent resume! Minor improvements suggested.';
+        } else if (score >= 80) {
+            scoreClass = 'score-good';
+            description = 'Good resume with some areas for improvement.';
+        } else if (score >= 70) {
+            scoreClass = 'score-average';
+            description = 'Average resume. Several improvements needed.';
+        } else {
+            scoreClass = 'score-poor';
+            description = 'Needs significant improvements.';
+        }
+        
+        // Calculate the stroke-dasharray for the circle
+        // For a circle with circumference ~100, we want the visible part to be the score percentage
+        const circumference = 100;
+        const strokeLength = (score / 100) * circumference;
+        const gapLength = circumference - strokeLength;
+        
+        // Add circular score class
+        scoreCard.className = `score-card ${scoreClass}`;
+        
+        // Create circular score HTML with proper SVG path
+        scoreCard.innerHTML = `
+            <div class="score-circle">
+                <svg class="circular-chart" viewBox="0 0 36 36">
+                    <path class="circle-bg"
+                        d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                    />
+                    <path class="circle"
+                        d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                        stroke-dasharray="${strokeLength}, ${gapLength}"
+                    />
+                </svg>
+                <div class="score-text">
+                    <span class="score-percentage">${score}%</span>
+                    <span class="score-label">Score</span>
+                </div>
+            </div>
+            <div class="score-description">${description}</div>
+        `;
+        
+        // Force a reflow to trigger the animation
+        void scoreCard.offsetWidth;
+    }
+    
     function generateMockResults() {
         // Generate random but realistic results
         const score = Math.floor(Math.random() * 30) + 70; // Score between 70-100
@@ -168,58 +230,5 @@ document.addEventListener('DOMContentLoaded', function() {
             li.textContent = suggestion;
             suggestionsList.appendChild(li);
         });
-    }
-    
-    function updateCircularScore(score) {
-        // Create or update the circular score element
-        let scoreCard = document.querySelector('.score-card');
-        
-        // Remove old score card content
-        scoreCard.innerHTML = '';
-        
-        // Determine score class and description
-        let scoreClass = '';
-        let description = '';
-        
-        if (score >= 90) {
-            scoreClass = 'score-excellent';
-            description = 'Excellent resume! Minor improvements suggested.';
-        } else if (score >= 80) {
-            scoreClass = 'score-good';
-            description = 'Good resume with some areas for improvement.';
-        } else if (score >= 70) {
-            scoreClass = 'score-average';
-            description = 'Average resume. Several improvements needed.';
-        } else {
-            scoreClass = 'score-poor';
-            description = 'Needs significant improvements.';
-        }
-        
-        // Add circular score class
-        scoreCard.className = `score-card ${scoreClass}`;
-        
-        // Create circular score HTML
-        scoreCard.innerHTML = `
-            <div class="score-circle">
-                <svg class="circular-chart" viewBox="0 0 36 36">
-                    <path class="circle-bg"
-                        d="M18 2.0845
-                        a 15.9155 15.9155 0 0 1 0 31.831
-                        a 15.9155 15.9155 0 0 1 0 -31.831"
-                    />
-                    <path class="circle"
-                        d="M18 2.0845
-                        a 15.9155 15.9155 0 0 1 0 31.831
-                        a 15.9155 15.9155 0 0 1 0 -31.831"
-                        stroke-dasharray="${score}, 100"
-                    />
-                </svg>
-                <div class="score-text">
-                    <span class="score-percentage">${score}%</span>
-                    <span class="score-label">Score</span>
-                </div>
-            </div>
-            <div class="score-description">${description}</div>
-        `;
     }
 });

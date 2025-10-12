@@ -133,11 +133,9 @@
     fill: none;
     stroke-width: 3.8;
     stroke-linecap: round;
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-    stroke-dasharray: 0 100;
+    stroke-dasharray: 100, 100; /* Start with full circle hidden */
+    stroke-dashoffset: 25; /* Adjust this based on your SVG path */
     transition: stroke-dasharray 1s ease-in-out;
-    stroke: #3498db; /* Default color */
 }
 
 .score-text {
@@ -151,7 +149,7 @@
 .score-percentage {
     font-size: 2.2rem;
     font-weight: bold;
-    color: #3498db; /* Default color */
+    color: #3498db;
     display: block;
     line-height: 1;
 }
@@ -161,6 +159,46 @@
     color: #666;
     display: block;
     margin-top: 5px;
+}
+
+/* FIXED: Color variations based on score */
+.score-card.score-excellent .circle { 
+    stroke: #2ecc71 !important; 
+}
+
+.score-card.score-good .circle { 
+    stroke: #3498db !important; 
+}
+
+.score-card.score-average .circle { 
+    stroke: #f39c12 !important; 
+}
+
+.score-card.score-poor .circle { 
+    stroke: #e74c3c !important; 
+}
+
+.score-card.score-excellent .score-percentage { 
+    color: #2ecc71 !important; 
+}
+
+.score-card.score-good .score-percentage { 
+    color: #3498db !important; 
+}
+
+.score-card.score-average .score-percentage { 
+    color: #f39c3c !important; 
+}
+
+.score-card.score-poor .score-percentage { 
+    color: #e74c3c !important; 
+}
+
+.score-description {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 10px;
+    font-weight: 600;
 }
 
 /* FIXED: Color variations based on score - using more specific selectors */
